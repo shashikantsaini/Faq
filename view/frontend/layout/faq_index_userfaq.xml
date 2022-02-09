@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Bluethink\Faq\Block\Frontend\Faq\UserFaq" name="faq_user_add_new" template="Bluethink_Faq::faq_add_new.phtml" />
+            <block class="Bluethink\Faq\Block\Index\Faq\UserFaq" name="faq_user_add_new" template="Bluethink_Faq::faq_add_new.phtml" />
         </referenceContainer>
     </body>
 </page>

@@ -6,76 +6,103 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 interface FaqInterface extends ExtensibleDataInterface
 {
-    const FAQ_ID = 'faq_id';
+    public const FAQ_ID = 'faq_id';
 
-    const TITLE = 'title';
+    public const TITLE = 'title';
 
-    const CONTENT = 'content';
+    public const CONTENT = 'content';
 
-    const GROUP = 'group';
+    public const GROUP = 'group';
 
-    const SORT_ORDER = 'sortorder';
+    public const SORT_ORDER = 'sortorder';
 
-    const STATUS = 'status';
+    public const STATUS = 'status';
 
+    /**
+     * GetFaqId method.
+     *
+     * @return mixed
+     */
     public function getFaqId();
 
     /**
+     * SetFaqId method.
+     *
      * @param int $faqId
-     * @return void
+     * @return mixed
      */
     public function setFaqId($faqId);
 
     /**
-     * @return string
+     * GetTitle method.
+     *
+     * @return mixed
      */
     public function getTitle();
 
     /**
+     * SetTitle method.
+     *
      * @param string $title
      * @return void
      */
     public function setTitle($title);
 
     /**
+     * GetContent method.
+     *
      * @return string
      */
     public function getContent();
 
     /**
+     * SetContent method.
+     *
      * @param string $content
      * @return void
      */
     public function setContent($content);
 
     /**
+     * GetGroup method.
+     *
      * @return string
      */
     public function getGroup();
 
     /**
+     * SetGroup.
+     *
      * @param string $group
      * @return void
      */
     public function setGroup($group);
 
     /**
+     * GetSortOrder method.
+     *
      * @return string
      */
     public function getSortOrder();
 
     /**
+     * SetSortOrder method.
+     *
      * @param string $sortOrder
      * @return void
      */
     public function setSortOrder($sortOrder);
 
     /**
+     * GetStatus method.
+     *
      * @return string
      */
     public function getStatus();
 
     /**
+     * SetStatus method.
+     *
      * @param string $status
      * @return void
      */

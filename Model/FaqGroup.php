@@ -9,6 +9,8 @@ use Bluethink\Faq\Model\ResourceModel\FaqGroup as ResourceModel;
 class FaqGroup extends AbstractExtensibleModel implements FaqGroupInterface
 {
     /**
+     * FaqGroup _construct.
+     *
      * @return void
      */
     protected function _construct()
@@ -17,31 +19,31 @@ class FaqGroup extends AbstractExtensibleModel implements FaqGroupInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getFaqgroupId()
     {
         return $this->getData(self::FAQGROUP_ID);
     }
- 
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setFaqgroupId($faqGroupId)
     {
         return $this->setData(self::FAQGROUP_ID, $faqGroupId);
     }
-    
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getGroupname()
     {
         return $this->getData(self::GROUPNAME);
     }
- 
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setGroupname($groupName)
     {
@@ -49,15 +51,15 @@ class FaqGroup extends AbstractExtensibleModel implements FaqGroupInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getIcon()
     {
         return $this->getData(self::ICON);
     }
- 
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setIcon($icon)
     {
@@ -65,15 +67,15 @@ class FaqGroup extends AbstractExtensibleModel implements FaqGroupInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSortOrder()
     {
         return $this->getData(self::SORT_ORDER);
     }
- 
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setSortOrder($sortOrder)
     {
@@ -81,15 +83,15 @@ class FaqGroup extends AbstractExtensibleModel implements FaqGroupInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getStatus()
     {
         return $this->getData(self::STATUS);
     }
- 
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStatus($status)
     {

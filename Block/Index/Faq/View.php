@@ -1,6 +1,6 @@
 <?php
 
-namespace Bluethink\Faq\Block\Frontend\Faq;
+namespace Bluethink\Faq\Block\Index\Faq;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -10,6 +10,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\View\LayoutInterface;
 use Bluethink\Faq\Model\ResourceModel\Faq\CollectionFactory as FaqCollection;
 use Bluethink\Faq\Model\ResourceModel\FaqGroup\CollectionFactory as FaqGroupCollection;
+use Magento\Cms\Model\Template\FilterProvider;
 
 class View extends Template
 {
@@ -39,12 +40,15 @@ class View extends Template
     protected $faqGroupCollection;
 
     /**
+     * View Constructor.
+     *
      * @param Context $context
      * @param Registry $coreRegistry
      * @param FaqCollection $faqCollection
      * @param FaqGroupCollection $faqGroupCollection
      * @param StoreManagerInterface $storeManager
      * @param LayoutInterface $layout
+     * @param FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
@@ -54,6 +58,7 @@ class View extends Template
         FaqGroupCollection $faqGroupCollection,
         StoreManagerInterface $storeManager,
         LayoutInterface $layout,
+        FilterProvider $filterProvider,
         array $data = []
     ) {
         $this->coreRegistry = $coreRegistry;
@@ -61,10 +66,13 @@ class View extends Template
         $this->faqCollection = $faqCollection;
         $this->faqGroupCollection = $faqGroupCollection;
         $this->layout = $layout;
+        $this->filterProvider = $filterProvider;
         parent::__construct($context, $data);
     }
 
     /**
+     * GetFaqGroupCollection method.
+     *
      * @return mixed
      */
     public function getFaqGroupCollection()
@@ -73,7 +81,9 @@ class View extends Template
     }
 
     /**
-     * @param $groupId
+     * GetFaqCollectionByGroupId method.
+     *
+     * @param int $groupId
      * @return mixed
      */
     public function getFaqCollectionByGroupId($groupId)
@@ -82,6 +92,8 @@ class View extends Template
     }
 
     /**
+     * GetFaqCollection method.
+     *
      * @return mixed
      */
     public function getFaqCollection()
@@ -90,6 +102,8 @@ class View extends Template
     }
 
     /**
+     * GetMediaUrl method.
+     *
      * @return string
      */
     public function getMediaUrl()
@@ -99,6 +113,8 @@ class View extends Template
     }
 
     /**
+     * Get User Faq Block.
+     *
      * @return mixed
      */
     public function getUserFaqBlock()
@@ -106,5 +122,17 @@ class View extends Template
         return $this->layout
             ->createBlock(UserFaq::class)
             ->setTemplate('Bluethink_Faq::faq_add_new.phtml');
+    }
+
+    /**
+     * Get filtered content.
+     *
+     * @param string $content
+     * @return string
+     * @throws \Exception
+     */
+    public function filterContent($content)
+    {
+        return $this->filterProvider->getPageFilter()->filter($content);
     }
 }

@@ -7,10 +7,13 @@ use Bluethink\Faq\Model\FaqUserFactory;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Json;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\Page;
 
 class AddUserFaq extends Action
 {
-
     /**
      * @var PageFactory
      */
@@ -48,12 +51,14 @@ class AddUserFaq extends Action
     }
 
     /**
-     * @return mixed
+     * Execute method.
+     *
+     * @return Json|Page
      */
     public function execute()
     {
-        $postdata = $this->getRequest()->getPostValue();
-        if (!$postdata['title']) {
+        $postData = $this->getRequest()->getPostValue();
+        if (!$postData['title']) {
             $result = $this->resultJsonFactory->create();
             $result->setData(['status' => 202, 'message' => 'Please ask a question']);
             return $result;
@@ -62,7 +67,7 @@ class AddUserFaq extends Action
         try {
             $model = $this->faqUserFactory->create();
 
-            $model->setData($postdata);
+            $model->setData($postData);
 
             $model->save();
 
@@ -72,10 +77,9 @@ class AddUserFaq extends Action
                 'message' => 'Your question is received. We will try to get answer as soon as possible'
             ]);
             return $result;
-
         } catch (\Exception $e) {
             $result = $this->resultJsonFactory->create();
-            $result->setData(['status' => 201, 'message' => 'Question not recived having some issue']);
+            $result->setData(['status' => 201, 'message' => 'Question not received having some issue']);
             return $result;
         }
     }

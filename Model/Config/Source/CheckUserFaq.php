@@ -7,6 +7,8 @@ use Magento\Framework\Option\ArrayInterface;
 class CheckUserFaq implements ArrayInterface
 {
     /**
+     * Set Array to Option
+     *
      * @return array
      */
     public function toOptionArray()

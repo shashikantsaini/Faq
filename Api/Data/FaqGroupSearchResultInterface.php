@@ -1,19 +1,24 @@
 <?php
- 
+
 namespace Bluethink\Faq\Api\Data;
- 
+
 use Magento\Framework\Api\SearchResultsInterface;
- 
+use Bluethink\Faq\Api\Data\FaqGroupInterface;
+
 interface FaqGroupSearchResultInterface extends SearchResultsInterface
 {
     /**
-     * @return \Bluethink\Faq\Api\Data\FaqGroupInterface[]
+     * GetItems list method.
+     *
+     * @return FaqGroupInterface[]
      */
     public function getItems();
- 
+
     /**
-     * @param \Bluethink\Faq\Api\Data\FaqGroupInterface[] $items
-     * @return void
+     * SetItems list method.
+     *
+     * @param array $items
+     * @return FaqGroupSearchResultInterface
      */
     public function setItems(array $items);
 }

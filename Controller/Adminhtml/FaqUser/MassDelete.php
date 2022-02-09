@@ -6,24 +6,28 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
 use Magento\Ui\Component\MassAction\Filter;
 use Bluethink\Faq\Model\ResourceModel\FaqUser\CollectionFactory;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Backend\App\Action;
 
-class MassDelete extends \Magento\Backend\App\Action
+class MassDelete extends Action
 {
     /**
      * @var Filter
      */
-    protected $_filter;
+    protected $filter;
 
     /**
      * @var CollectionFactory
      */
-    protected $_collectionFactory;
+    protected $collectionFactory;
 
     /**
      * MassDelete constructor.
      *
      * @param Context $context
-     * @param PageFactory $resultPageFactory
+     * @param Filter $filter
      * @param CollectionFactory $collectionFactory
      */
     public function __construct(
@@ -32,17 +36,20 @@ class MassDelete extends \Magento\Backend\App\Action
         CollectionFactory $collectionFactory
     ) {
 
-        $this->_filter = $filter;
-        $this->_collectionFactory = $collectionFactory;
+        $this->filter = $filter;
+        $this->collectionFactory = $collectionFactory;
         parent::__construct($context);
     }
 
     /**
-     * @return \Magento\Backend\Model\View\Result\Redirect
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface
+     * @throws LocalizedException
      */
     public function execute()
     {
-        $collection = $this->_filter->getCollection($this->_collectionFactory->create());
+        $collection = $this->filter->getCollection($this->collectionFactory->create());
         $recordDeleted = 0;
         foreach ($collection as $record) {
             if ($record->delete()) {

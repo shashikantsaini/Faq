@@ -27,7 +27,7 @@ class UserFaqAdd
      * UserFaqAdd constructor.
      *
      * @param LoggerInterface $logger
-     * @param FaqUserCollection $collection
+     * @param FaqUserCollection $faqUserCollection
      * @param FaqFactory $faqFactory
      */
     public function __construct(
@@ -40,6 +40,12 @@ class UserFaqAdd
         $this->faqFactory = $faqFactory;
     }
 
+    /**
+     * Execute method.
+     *
+     * @return void
+     * @throws \Exception
+     */
     public function execute()
     {
         $faqUser = $this->faqUserCollection->create();
