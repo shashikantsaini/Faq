@@ -1,0 +1,29 @@
+{
+    "name": "bluethink/faq",
+    "description": "Magento2 FAQ Module with User Faq Addition",
+    "homepage": "https://github.com/shashikantsaini/shashikantsaini/tree/master/Faq",
+    "type": "magento2-module",
+    "version": "0.0.4",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+      ],
+      "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "magento/framework": "~100.0.4"
+      },
+    "authors": [
+        {
+          "name": "Shashi Kant Saini",
+          "email": "shashikantsaini.sk@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Bluethink\\Faq\\": ""
+        }
+    }
+}
