@@ -6,68 +6,88 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 interface FaqGroupInterface extends ExtensibleDataInterface
 {
-    const FAQGROUP_ID = 'faqgroup_id';
+    public const FAQGROUP_ID = 'faqgroup_id';
 
-    const GROUPNAME = 'groupname';
+    public const GROUPNAME = 'groupname';
 
-    const ICON = 'icon';
+    public const ICON = 'icon';
 
-    const SORT_ORDER = 'sortorder';
+    public const SORT_ORDER = 'sortorder';
 
-    const STATUS = 'status';
+    public const STATUS = 'status';
 
     /**
-     * @return int
+     * GetFaqgroupId method.
+     *
+     * @return mixed
      */
     public function getFaqgroupId();
 
     /**
+     * SetFaqgroupId method.
+     *
      * @param int $faqGroupId
-     * @return void
+     * @return mixed
      */
     public function setFaqgroupId($faqGroupId);
 
     /**
-     * @return string
+     * GetGroupname method.
+     *
+     * @return mixed
      */
     public function getGroupname();
 
     /**
+     * SetGroupname method.
+     *
      * @param string $groupName
-     * @return void
+     * @return mixed
      */
     public function setGroupname($groupName);
 
     /**
-     * @return string
+     * GetIcon method.
+     *
+     * @return mixed
      */
     public function getIcon();
 
     /**
+     * SetIcon method.
+     *
      * @param string $icon
-     * @return void
+     * @return mixed
      */
     public function setIcon($icon);
 
     /**
-     * @return string
+     * GetSortOrder method.
+     *
+     * @return mixed
      */
     public function getSortOrder();
 
     /**
-     * @param string $sortOrder
-     * @return void
+     * SetSortOrder method.
+     *
+     * @param int $sortOrder
+     * @return mixed
      */
     public function setSortOrder($sortOrder);
 
     /**
-     * @return string
+     * GetStatus method.
+     *
+     * @return mixed
      */
     public function getStatus();
 
     /**
-     * @param string $status
-     * @return void
+     * SetStatus method.
+     *
+     * @param int $status
+     * @return mixed
      */
     public function setStatus($status);
 }

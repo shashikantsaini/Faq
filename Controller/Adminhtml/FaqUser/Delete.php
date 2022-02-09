@@ -5,6 +5,8 @@ namespace Bluethink\Faq\Controller\Adminhtml\FaqUser;
 use Magento\Backend\App\Action\Context;
 use Bluethink\Faq\Model\FaqUserFactory;
 use Magento\Backend\App\Action;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
 
 class Delete extends Action
 {
@@ -16,7 +18,7 @@ class Delete extends Action
     /**
      * Delete constructor.
      *
-     * @param Context    $context
+     * @param Context $context
      * @param FaqUserFactory $faqUserFactory
      */
     public function __construct(
@@ -28,16 +30,18 @@ class Delete extends Action
     }
 
     /**
-     * @return void
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface|void
      */
     public function execute()
     {
         $faqUserId = $this->getRequest()->getParam('user_faq_id');
+        $resultRedirect = $this->resultRedirectFactory->create();
 
         if (!$faqUserId) {
             $this->messageManager->addError(__('FAQ does not exist'));
-            $this->_redirect('*/*/index');
-            return;
+            return $resultRedirect->setPath('*/*/index');
         }
 
         try {
@@ -45,12 +49,10 @@ class Delete extends Action
             $faqUser->load($faqUserId);
             $faqUser->delete();
             $this->messageManager->addSuccess(__('FAQ has been successfully deleted with ID : %1.', $faqUserId));
-            $this->_redirect('*/*/index');
-            return;
+            return $resultRedirect->setPath('*/*/index');
         } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('*/*/edit', ['user_faq_id' => $faqUserId]);
-            return;
+            return $resultRedirect->setPath('*/*/edit', ['user_faq_id' => $faqUserId]);
         }
     }
 }

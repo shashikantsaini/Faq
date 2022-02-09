@@ -5,21 +5,26 @@ namespace Bluethink\Faq\Model\FaqGroup;
 use Bluethink\Faq\Model\ResourceModel\FaqGroup\CollectionFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Ui\DataProvider\AbstractDataProvider;
+use Magento\Framework\UrlInterface;
 
-class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+class DataProvider extends AbstractDataProvider
 {
     /**
      * @var CollectionFactory
      */
     public $collection;
+
     /**
-     * @var
+     * @var loadedData
      */
     protected $_loadedData;
+
     /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
+
     /**
      * @var DataPersistorInterface
      */
@@ -56,7 +61,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     /**
      * Get data
      *
-     * @return array
+     * @return mixed
      */
     public function getData()
     {
@@ -72,15 +77,9 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
                 $img['icon'][0]['name'] = $itemData->getIcon();
                 $img['icon'][0]['url'] = $this->getMediaUrl() . $itemData->getIcon();
                 $img['icon'][0]['type'] = 'image';
-                $fullData = $this->_loadedData;
-                $this->_loadedData[$itemData->getFaqgroupId()] = array_merge(
-                    $fullData[$itemData->getFaqgroupId()],
-                    $img
-                );
+                $this->_loadedData[$itemData->getFaqgroupId()]['icon'] = $img['icon'];
             }
         }
-        echo "<pre>";
-        print_r($this->_loadedData);die;
         return $this->_loadedData;
     }
 
@@ -88,11 +87,10 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * Get media url
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     public function getMediaUrl()
     {
         return $this->storeManager->getStore()
-                ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'faq/tmp/icon/';
+                ->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . 'faq/tmp/icon/';
     }
 }

@@ -1,10 +1,11 @@
 <?php
+
 namespace Bluethink\Faq\Ui\Component\Listing\Column;
 
 use Bluethink\Faq\Model\ResourceModel\FaqGroup\CollectionFactory;
-use \Magento\Framework\View\Element\UiComponent\ContextInterface;
-use \Magento\Framework\View\Element\UiComponentFactory;
-use \Magento\Ui\Component\Listing\Columns\Column;
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
 class Group extends Column
 {
@@ -38,9 +39,15 @@ class Group extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
+    /**
+     * Preparing Data Source.
+     *
+     * @param array $dataSource
+     * @return array
+     */
     public function prepareDataSource(array $dataSource)
     {
-        
+
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 $groups = explode(",", $item["group"]);
@@ -48,7 +55,7 @@ class Group extends Column
                 foreach ($groups as $group) {
                     $groupData[] = $this->faqGroupCollection->create()->getItemById($group)->getData('groupname');
                 }
-                
+
                 $item['group'] = implode(",", $groupData);
             }
         }

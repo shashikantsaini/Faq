@@ -4,8 +4,12 @@ namespace Bluethink\Faq\Controller\Adminhtml\Faq;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\Page;
+use Magento\Backend\App\Action;
 
-class Index extends \Magento\Backend\App\Action
+class Index extends Action
 {
     /**
      * @var PageFactory
@@ -26,6 +30,11 @@ class Index extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface|Page
+     */
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();

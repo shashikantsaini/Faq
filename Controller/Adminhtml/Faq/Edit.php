@@ -1,12 +1,18 @@
 <?php
+
 namespace Bluethink\Faq\Controller\Adminhtml\Faq;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Registry;
 use Bluethink\Faq\Model\FaqFactory;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\Page as FrameworkPage;
+use Magento\Backend\App\Action;
 
-class Edit extends \Magento\Backend\App\Action
+class Edit extends Action
 {
     /**
      * @var PageFactory
@@ -44,27 +50,28 @@ class Edit extends \Magento\Backend\App\Action
     }
 
     /**
-     * Mapped Grid List page.
-     * @return \Magento\Backend\Model\View\Result\Page
+     * Execute method.
+     *
+     * @return Page|ResponseInterface|ResultInterface|FrameworkPage|void
      */
     public function execute()
     {
         $faqId = (int) $this->getRequest()->getParam('faq_id');
         $faqData = $this->faqFactory->create();
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+
         if ($faqId) {
             $faqData = $faqData->load($faqId);
             $faqTitle = $faqData->getTitle();
             if (!$faqData->getFaqId()) {
                 $this->messageManager->addError(__('FAQ Group no longer exist.'));
-                $this->_redirect('adminfaq/faqgroup/index');
-                return;
+                $resultRedirect = $this->resultRedirectFactory->create();
+                return $resultRedirect->setPath('adminfaq/faq/index');
             }
         }
 
         $this->coreRegistry->register('faq_data', $faqData);
         $resultPage = $this->resultPageFactory->create();
-        $title = $faqId ? __('Edit FAQ ').$faqTitle : __('Add FAQ');
+        $title = $faqId ? __('Edit FAQ ') . $faqTitle : __('Add FAQ');
         $resultPage->getConfig()->getTitle()->prepend($title);
         return $resultPage;
     }

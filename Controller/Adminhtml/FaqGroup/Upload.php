@@ -5,14 +5,17 @@ namespace Bluethink\Faq\Controller\Adminhtml\FaqGroup;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action\Context;
 use Bluethink\Faq\Model\ImageUploader;
- 
-class Upload extends \Magento\Backend\App\Action
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Backend\App\Action;
+
+class Upload extends Action
 {
     /**
      * @var ImageUploader
      */
     public $imageUploader;
- 
+
     /**
      * Upload constructor.
      *
@@ -26,7 +29,12 @@ class Upload extends \Magento\Backend\App\Action
         parent::__construct($context);
         $this->imageUploader = $imageUploader;
     }
- 
+
+    /**
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface
+     */
     public function execute()
     {
         try {

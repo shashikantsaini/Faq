@@ -7,8 +7,9 @@ use Bluethink\Faq\Model\ResourceModel\FaqUser as ResourceModel;
 
 class FaqUser extends AbstractExtensibleModel
 {
-
     /**
+     * FaqUser _construct.
+     *
      * @return void
      */
     protected function _construct()

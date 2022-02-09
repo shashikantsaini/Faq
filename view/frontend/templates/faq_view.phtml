@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
 <div class="container">
     <div class="faqgroup-container">
         <?php
@@ -12,7 +7,7 @@
                 if ($faqGroup->getStatus()) {
                     ?>
                     <a class="faqgroup-section-title faqgroup-section"
-                       href="#faqgroup-<?= $block->escapeHtmlAttr($faqGroup->getFaqgroupId()); ?>">
+                       href="#faqgroup-<?= $block->escapeHtmlAttr($faqGroup->getFaqgroupId());?>">
                         <div class="faqgroup-section-title-content">
                             <img src="<?= /* @noEscape */
                             $block->getMediaUrl() . $faqGroup->getIcon(); ?>" width="40" height="40">
@@ -52,7 +47,8 @@
                                             </a>
                                             <div id="faq-<?= $block->escapeHtmlAttr($faq->getFaqId()); ?>"
                                                  class="faq-section-content">
-                                                <?= $block->escapeHtmlAttr($faq->getContent()); ?>
+                                                <?= /* @noEscape */
+                                                $block->filterContent($faq->getContent()); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -78,6 +74,3 @@
         <?= $block->getUserFaqBlock()->toHtml() ?>
     </div>
 </div>
-
-</body>
-</html>

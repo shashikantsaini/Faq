@@ -1,12 +1,18 @@
 <?php
+
 namespace Bluethink\Faq\Controller\Adminhtml\FaqUser;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Registry;
 use Bluethink\Faq\Model\FaqUserFactory;
+use Magento\Backend\App\Action;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Result\Page as FrameworkPage;
 
-class Edit extends \Magento\Backend\App\Action
+class Edit extends Action
 {
     /**
      * @var PageFactory
@@ -44,22 +50,23 @@ class Edit extends \Magento\Backend\App\Action
     }
 
     /**
-     * Mapped Grid List page.
-     * @return \Magento\Backend\Model\View\Result\Page
+     * Execute method.
+     *
+     * @return Page|ResponseInterface|ResultInterface|FrameworkPage|void
      */
     public function execute()
     {
-        $faqUserId = (int) $this->getRequest()->getParam('user_faq_id');
+        $faqUserId = (int)$this->getRequest()->getParam('user_faq_id');
         $faqUserData = $this->faqUserFactory->create();
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+
         if ($faqUserId) {
             $faqUserData = $faqUserData->load($faqUserId);
             $faqUserAuth = $faqUserData->getAuthorizeStatus();
             $faqUserDec = $faqUserData->getDeclineStatus();
             if ($faqUserAuth || $faqUserDec) {
                 $this->messageManager->addError(__('User FAQ already Checked.'));
-                $this->_redirect('adminfaq/faquser/index');
-                return;
+                $resultRedirect = $this->resultRedirectFactory->create();
+                return $resultRedirect->setPath('adminfaq/faquser/index');
             }
         }
 

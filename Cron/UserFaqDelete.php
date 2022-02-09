@@ -21,7 +21,7 @@ class UserFaqDelete
      * UserFaqDelete constructor.
      *
      * @param LoggerInterface $logger
-     * @param FaqUserCollection $collection
+     * @param FaqUserCollection $faqUserCollection
      */
     public function __construct(
         LoggerInterface $logger,
@@ -31,13 +31,18 @@ class UserFaqDelete
         $this->faqUserCollection = $faqUserCollection;
     }
 
+    /**
+     * Execute method.
+     *
+     * @return void
+     */
     public function execute()
     {
         $faqUser = $this->faqUserCollection->create();
         $faqUser->addFieldToFilter('decline_status', ['eq' => 1]);
         foreach ($faqUser as $faqUserData) {
             $faqUserData->delete();
-            $this->logger->info('Deleted user faq with Id : '.$faqUserData->getUserFaqId());
+            $this->logger->info('Deleted user faq with Id : ' . $faqUserData->getUserFaqId());
         }
     }
 }

@@ -6,7 +6,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Bluethink\Faq\Block\Frontend\Faq\View" name="faq_view" template="Bluethink_Faq::faq_view.phtml" />
+            <block class="Bluethink\Faq\Block\Index\Faq\View" name="faq_view" template="Bluethink_Faq::faq_view.phtml" />
         </referenceContainer>
     </body>
 </page>

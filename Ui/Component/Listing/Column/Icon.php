@@ -7,35 +7,43 @@ use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Catalog\Helper\Image;
+use Magento\Framework\UrlInterface as FrameworkUrlInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Icon extends Column
 {
-    const ALT_FIELD = 'name';
+    /**
+     * Alter field name.
+     */
+    public const ALT_FIELD = 'name';
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\Catalog\Helper\Image
+     * @var Image
      */
     protected $imageHelper;
 
     /**
-     * @param ContextInterface              $context
-     * @param UiComponentFactory            $uiComponentFactory
-     * @param StoreManagerInterface         $storeManager
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param UrlInterface                  $backendUrl
-     * @param array                         $components
-     * @param array                         $data
+     * Icon Constructor.
+     *
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Image $imageHelper
+     * @param UrlInterface $backendUrl
+     * @param array $components
+     * @param array $data
      */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         StoreManagerInterface $storeManager,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        Image $imageHelper,
         UrlInterface $backendUrl,
         array $components = [],
         array $data = []
@@ -45,11 +53,13 @@ class Icon extends Column
         $this->_backendUrl = $backendUrl;
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
+
     /**
      * Prepare Data Source
      *
      * @param array $dataSource
      * @return array
+     * @throws NoSuchEntityException
      */
     public function prepareDataSource(array $dataSource)
     {
@@ -60,7 +70,7 @@ class Icon extends Column
                 if (isset($item[$fieldName])) {
                     if ($item[$fieldName] != '') {
                         $url = $this->storeManager->getStore()->getBaseUrl(
-                            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
+                            FrameworkUrlInterface::URL_TYPE_MEDIA
                         ) . "faq/tmp/icon/" . $item[$fieldName];
                     } else {
                         $url = $this->imageHelper->getDefaultPlaceholderUrl('small_image');
@@ -79,7 +89,14 @@ class Icon extends Column
         }
         return $dataSource;
     }
-    protected function getAlt($row)
+
+    /**
+     * Get Alter.
+     *
+     * @param array $row
+     * @return null
+     */
+    protected function getAlt(array $row)
     {
         $altField = $this->getData('config/altField') ?: self::ALT_FIELD;
         return isset($row[$altField]) ? $row[$altField] : null;

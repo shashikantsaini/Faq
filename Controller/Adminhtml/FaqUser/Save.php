@@ -6,6 +6,8 @@ use Magento\Backend\App\Action\Context;
 use Bluethink\Faq\Model\FaqUserFactory;
 use Bluethink\Faq\Model\FaqFactory;
 use Magento\Backend\App\Action;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
 
 class Save extends Action
 {
@@ -37,47 +39,50 @@ class Save extends Action
     }
 
     /**
-     * @return void
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface|void
      */
     public function execute()
     {
-        $postdata = $this->getRequest()->getPostValue();
+        $postData = $this->getRequest()->getParams();
         $authorizeStatus = $this->getRequest()->getParam('checkuserfaq');
+        $resultRedirect = $this->resultRedirectFactory->create();
 
-        if (!$postdata) {
-            $this->_redirect('*/*/index');
-            return;
+        if (!$postData) {
+            return $resultRedirect->setPath('*/*/index');
         }
 
         $modelFaqUser = $this->faqUserFactory->create();
-        $modelFaqUser = $modelFaqUser->load([$postdata['user_faq_id']]);
-        try {
-            if ($postdata['checkuserfaq']) {
-                $postdata = $this->_filterFaqGroupData($postdata);
-                $modelFaqUser->setData($postdata)
-                             ->setAuthorizeStatus($authorizeStatus)
-                             ->setDeclineStatus(0)
-                             ->setAddedStatus(0);
+        $modelFaqUser = $modelFaqUser->load($postData['user_faq_id']);
 
-                if (isset($postdata['user_faq_id'])) {
-                    $modelFaqUser->setUserFaqId($postdata['user_faq_id']);
+        try {
+            if ($postData['checkuserfaq']) {
+                $postData = $this->_filterFaqGroupData($postData);
+                $modelFaqUser->setData($postData)
+                    ->setAuthorizeStatus($authorizeStatus)
+                    ->setDeclineStatus(0)
+                    ->setAddedStatus(0);
+
+                if (isset($postData['user_faq_id'])) {
+                    $modelFaqUser->setUserFaqId($postData['user_faq_id']);
                 }
 
                 $modelFaqUser->save();
 
                 $this->messageManager->addSuccess(__('User FAQ has been Authorized.'));
             } else {
-                $modelFaqUser->setData($postdata)
-                             ->setAuthorizeStatus(0)
-                             ->setDeclineStatus(1)
-                             ->setAddedStatus(0);
+                $modelFaqUser->setData($postData)
+                    ->setAuthorizeStatus(0)
+                    ->setDeclineStatus(1)
+                    ->setAddedStatus(0);
                 $modelFaqUser->save();
                 $this->messageManager->addSuccess(__('User Faq has Been Updated as You Declined'));
             }
         } catch (\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         }
-        $this->_redirect('*/*/index');
+        return $resultRedirect->setPath('*/*/index');
     }
 
     /**

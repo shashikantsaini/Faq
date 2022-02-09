@@ -9,17 +9,31 @@ use Magento\Framework\UrlInterface;
 
 class FaqActions extends Column
 {
-    /** Url path */
-    const ROW_EDIT_URL = 'adminfaq/faq/edit';
+    /**
+     *  Url path
+     */
+    public const ROW_EDIT_URL = 'adminfaq/faq/edit';
 
-    /** @var UrlInterface */
+    /**
+     * @var UrlInterface
+     */
     protected $_urlBuilder;
 
     /**
-     * @var string
+     * @var mixed|string
      */
     private $_editUrl;
 
+    /**
+     * FaqActions Constructor.
+     *
+     * @param ContextInterface $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param UrlInterface $urlBuilder
+     * @param array $components
+     * @param array $data
+     * @param string $editUrl
+     */
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
@@ -33,6 +47,12 @@ class FaqActions extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
+    /**
+     * Preparing Data Source.
+     *
+     * @param array $dataSource
+     * @return array
+     */
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {

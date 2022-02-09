@@ -4,8 +4,11 @@ namespace Bluethink\Faq\Controller\Adminhtml\FaqGroup;
 
 use Magento\Backend\App\Action\Context;
 use Bluethink\Faq\Model\FaqGroupFactory;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Backend\App\Action;
 
-class Save extends \Magento\Backend\App\Action
+class Save extends Action
 {
     /**
      * @var FaqGroupFactory
@@ -27,31 +30,33 @@ class Save extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return mixed|void
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface|void
      */
     public function execute()
     {
-        $postdata = $this->getRequest()->getPostValue();
+        $postData = $this->getRequest()->getParams();
+        $resultRedirect = $this->resultRedirectFactory->create();
 
-        if (!$postdata) {
-            $this->_redirect('adminfaq/faqgroup/index');
-            return;
+        if (!$postData) {
+            return $resultRedirect->setPath('adminfaq/faqgroup/index');
         }
 
         try {
             $model = $this->faqGroupFactory->create();
-            if ($id = (int) $this->getRequest()->getParam('faqgroup_id')) {
+            if ($id = (int)$this->getRequest()->getParam('faqgroup_id')) {
                 $model = $model->load($id);
                 if ($id != $model->getId()) {
                     $this->messageManager->addErrorMessage(__('This FAQ Group no longer exists.'));
-                    return $resultRedirect->setPath('*/*/');
+                    return $resultRedirect->setPath('*/*/index');
                 }
             }
-            $postdata = $this->_filterFaqGroupData($postdata);
-            $model->setData($postdata);
+            $postData = $this->_filterFaqGroupData($postData);
+            $model->setData($postData);
 
-            if (isset($postdata['faqgroup_id'])) {
-                $model->setFaqgroupId($postdata['faqgroup_id']);
+            if (isset($postData['faqgroup_id'])) {
+                $model->setFaqgroupId($postData['faqgroup_id']);
             }
 
             $model->save();
@@ -59,14 +64,12 @@ class Save extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('FAQ Group has been successfully saved.'));
 
             if ($this->getRequest()->getParam('back')) {
-                $this->_redirect('*/*/edit', ['faqgroup_id' => $model->getFaqgroupId()]);
-                return;
+                return $resultRedirect->setPath('*/*/edit', ['faqgroup_id' => $model->getFaqgroupId()]);
             }
-
         } catch (\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         }
-        $this->_redirect('*/*/index');
+        return $resultRedirect->setPath('*/*/index');
     }
 
     /**

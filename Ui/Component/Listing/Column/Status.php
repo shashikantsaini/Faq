@@ -7,9 +7,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 class Status implements OptionSourceInterface
 {
     /**
-     * Options getter
+     * Options getter.
      *
-     * @return array
+     * @return array[]
      */
     public function toOptionArray()
     {

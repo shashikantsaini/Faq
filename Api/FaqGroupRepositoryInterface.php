@@ -1,34 +1,41 @@
 <?php
- 
+
 namespace Bluethink\Faq\Api;
- 
+
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Bluethink\Faq\Api\Data\FaqGroupInterface;
- 
+
 interface FaqGroupRepositoryInterface
 {
     /**
+     * GetById method.
+     *
      * @param int $id
-     * @return \Bluethink\Faq\Api\Data\FaqGroupInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return mixed
      */
     public function getById($id);
- 
+
     /**
-     * @param \Bluethink\Faq\Api\Data\FaqGroupInterface $faqGroup
-     * @return \Bluethink\Faq\Api\Data\FaqGroupInterface
+     * Save method.
+     *
+     * @param FaqGroupInterface $faqGroup
+     * @return mixed
      */
     public function save(FaqGroupInterface $faqGroup);
- 
+
     /**
-     * @param \Bluethink\Faq\Api\Data\FaqGroupInterface $faqGroup
-     * @return void
+     * Delete method.
+     *
+     * @param FaqGroupInterface $faqGroup
+     * @return mixed
      */
     public function delete(FaqGroupInterface $faqGroup);
- 
+
     /**
-     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Bluethink\Faq\Api\Data\FaqGroupSearchResultInterface
+     * GetList method.
+     *
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return mixed
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 }

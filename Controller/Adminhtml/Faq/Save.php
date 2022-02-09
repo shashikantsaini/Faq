@@ -6,6 +6,8 @@ use Magento\Backend\App\Action\Context;
 use Bluethink\Faq\Model\FaqFactory;
 use Bluethink\Faq\Api\FaqRepositoryInterface;
 use Magento\Backend\App\Action;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
 
 class Save extends Action
 {
@@ -18,6 +20,11 @@ class Save extends Action
      * @var FaqRepositoryInterface
      */
     protected $faqRepository;
+
+    /**
+     * @var RedirectFactory
+     */
+    private $resultRedirect;
 
     /**
      * Save constructor.
@@ -37,44 +44,45 @@ class Save extends Action
     }
 
     /**
-     * @return mixed|void
+     * Execute method.
+     *
+     * @return ResponseInterface|ResultInterface|void
      */
     public function execute()
     {
-        $postdata = $this->getRequest()->getPostValue();
-        if (!$postdata) {
-            $this->_redirect('*/*/index');
-            return;
+        $postData = $this->getRequest()->getParams();
+        $resultRedirect = $this->resultRedirectFactory->create();
+
+        if (!$postData) {
+            return $resultRedirect->setPath('*/*/');
         }
 
         try {
             $model = $this->faqFactory->create();
-            if ($id = (int) $this->getRequest()->getParam('faq_id')) {
+            if ($id = (int)$this->getRequest()->getParam('faq_id')) {
                 $model = $model->load($id);
                 if ($id != $model->getId()) {
                     $this->messageManager->addErrorMessage(__('This FAQ no longer exists.'));
-                    return $this->_redirect('*/*/index');
+                    return $resultRedirect->setPath('*/*/index');
                 }
             }
-            $postdata = $this->_filterFaqGroupData($postdata);
-            $model->setData($postdata);
+            $postData = $this->_filterFaqGroupData($postData);
+            $model->setData($postData);
 
-            if (isset($postdata['faq_id'])) {
-                $model->setFaqId($postdata['faq_id']);
+            if (isset($postData['faq_id'])) {
+                $model->setFaqId($postData['faq_id']);
             }
 
             $model->save();
             $this->messageManager->addSuccess(__('FAQ has been successfully saved.'));
 
             if ($this->getRequest()->getParam('back')) {
-                $this->_redirect('*/*/edit', ['faq_id' => $model->getFaqId()]);
-                return;
+                return $resultRedirect->setPath('*/*/edit', ['faq_id' => $model->getFaqId()]);
             }
-
         } catch (\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         }
-        $this->_redirect('*/*/index');
+        return $resultRedirect->setPath('*/*/index');
     }
 
     /**

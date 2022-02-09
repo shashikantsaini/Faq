@@ -1,6 +1,6 @@
 <?php
 
-namespace Bluethink\Faq\Block\Frontend\Faq;
+namespace Bluethink\Faq\Block\Index\Faq;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -32,6 +32,16 @@ class UserFaq extends Template
      */
     protected $faqGroupCollection;
 
+    /**
+     * UserFaq class Constructor
+     *
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param FaqCollection $faqCollection
+     * @param FaqGroupCollection $faqGroupCollection
+     * @param StoreManagerInterface $storeManager
+     * @param array $data
+     */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
@@ -47,6 +57,11 @@ class UserFaq extends Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * GetFaqCollection method.
+     *
+     * @return FaqCollection
+     */
     public function getFaqCollection()
     {
         $collection = $this->faqCollection->create();
@@ -54,6 +69,8 @@ class UserFaq extends Template
     }
 
     /**
+     * GetFaqGroupCollection method.
+     *
      * @return mixed
      */
     public function getFaqGroupCollection()

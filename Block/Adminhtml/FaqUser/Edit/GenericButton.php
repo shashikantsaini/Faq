@@ -6,9 +6,10 @@ use Magento\Backend\Block\Widget\Context;
 
 abstract class GenericButton
 {
-
     /**
-     * @param \Magento\Backend\Block\Widget\Context $context
+     * Abstract class GenericButton constructor.
+     *
+     * @param Context $context
      */
     public function __construct(Context $context)
     {
