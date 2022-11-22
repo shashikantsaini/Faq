@@ -47,19 +47,20 @@ class Group extends Column
      */
     public function prepareDataSource(array $dataSource)
     {
-
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 $groups = explode(",", $item["group"]);
-                $groupData = [];
-                foreach ($groups as $group) {
-                    $groupData[] = $this->faqGroupCollection->create()->getItemById($group)->getData('groupname');
+                if(!empty($item['group'])) {
+                    $groupData = [];
+                    foreach ($groups as $group) {
+                        $groupData[] = $this->faqGroupCollection->create()->getItemById($group)->getData('groupname');
+                    }
+                    $item['group'] = implode(",", $groupData);
                 }
-
-                $item['group'] = implode(",", $groupData);
             }
         }
 
         return $dataSource;
     }
 }
+
