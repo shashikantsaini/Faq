@@ -2,6 +2,7 @@
     "name": "bluethink/faq",
     "description": "Magento2 FAQ Module with User Faq Addition",
     "homepage": "https://github.com/shashikantsaini/shashikantsaini/tree/master/Faq",
+    "minimum-stability": "dev",
     "type": "magento2-module",
     "version": "0.0.4",
     "license": [
